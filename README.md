@@ -27,13 +27,7 @@ OpenFOAM 自带的 timeActivatedFileUpdate 不支持发动机算例。
 因为在算例里边，发动机里边的 Time 是按照曲轴转角来计算的。
 但是在代码中仍然是按照秒来计算的。
 
-经过我的修改后，可以这样使用：
-```
-cp system/controlDict system/controlDict1
-cp system/controlDict system/controlDict2
-```
-
-然后在 controlDict 中加入：
+经过我的修改后，在 controlDict 中加入：
 ```
 functions
 {
@@ -51,4 +45,11 @@ functions
         );
     }
 }
+```
+
+然后复制几份 controlDict
+
+```
+cp system/controlDict system/controlDict1
+cp system/controlDict system/controlDict2
 ```
