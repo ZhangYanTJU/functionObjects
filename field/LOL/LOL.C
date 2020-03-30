@@ -80,9 +80,6 @@ bool Foam::functionObjects::LOL::clear(){return true;}
 
 bool Foam::functionObjects::LOL::execute()
 {
-    Info<<"I'm in LOL::execute ---------------------"<<endl;
-
-    scalar LOL = great;
     if (foundObject<volScalarField>(fieldName_))
     {
         const volScalarField& OH = lookupObject<volScalarField>(fieldName_);
@@ -94,7 +91,7 @@ bool Foam::functionObjects::LOL::execute()
                 "sprayCloudProperties",
                 mesh_.time().constant(),
                 mesh_,
-                IOobject::MUST_READ_IF_MODIFIED,
+                IOobject::MUST_READ,
                 IOobject::NO_WRITE
             )
         );
@@ -103,23 +100,24 @@ bool Foam::functionObjects::LOL::execute()
         vector direction = sprayCloudProperties.subDict("subModels")
             .subDict("injectionModels").subDict("model1").lookup("direction");
 
+        scalar LOL = great;
         forAll (OH, cellI)
         {
             if (OH[cellI] >= 0.02*OH_max)
             {
                 vector raw = position - mesh_.C()[cellI];
-                LOL = mag(raw&direction);
+
                 if (mag(raw&direction) < LOL)
                 {
                     LOL = mag(raw&direction);
                 }
             }
         }
-        Info << "LOL === " << LOL << endl;
+        Info << "LOL = " << LOL*1000 << " mm" << endl;
     }
     else
     {
-        Info << "LOL === " << LOL << endl;
+        Info << "Sorry! I cannot found OH!" << endl;
     }
 
     return true;
@@ -127,7 +125,6 @@ bool Foam::functionObjects::LOL::execute()
 
 bool Foam::functionObjects::LOL::write()
 {
-    Info<<"I'm in LOL::write --------------------------"<<endl;
     return true;
 }
 
