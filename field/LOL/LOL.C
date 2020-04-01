@@ -60,6 +60,19 @@ Foam::functionObjects::LOL::LOL
 )
 :
     fieldExpression(name, runTime, dict, "OH"),
+    sprayCloudProperties
+    (
+        IOobject
+        (
+            "sprayCloudProperties",
+            mesh_.time().constant(),
+            mesh_,
+            IOobject::READ_IF_PRESENT,
+            IOobject::NO_WRITE
+        )    
+    ),
+    position(sprayCloudProperties.subDict("subModels").subDict("injectionModels").subDict("model1").lookup("position")),
+    direction(sprayCloudProperties.subDict("subModels").subDict("injectionModels").subDict("model1").lookup("direction")),
     OH_max(readScalar(dict.lookup("OH_max"))),
     ResultOutPut("LOL")
 {
@@ -86,7 +99,7 @@ bool Foam::functionObjects::LOL::execute()
     {
         const volScalarField& OH = lookupObject<volScalarField>(fieldName_);
 
-        IOdictionary sprayCloudProperties
+        /*IOdictionary sprayCloudProperties
         (
             IOobject
             (
@@ -96,11 +109,12 @@ bool Foam::functionObjects::LOL::execute()
                 IOobject::MUST_READ,
                 IOobject::NO_WRITE
             )
-        );
-        vector position = sprayCloudProperties.subDict("subModels")
+        );*/
+        /*vector position = sprayCloudProperties.subDict("subModels")
             .subDict("injectionModels").subDict("model1").lookup("position");
         vector direction = sprayCloudProperties.subDict("subModels")
             .subDict("injectionModels").subDict("model1").lookup("direction");
+            */
 
         scalar LOL = great;
         forAll (OH, cellI)
@@ -115,6 +129,7 @@ bool Foam::functionObjects::LOL::execute()
                 }
             }
         }
+        reduce(LOL, minOp<scalar>());
         Info << "LOL = " << LOL*1000 << " mm" << endl;
         ResultOutPut << mesh_.time().value() << "," << LOL*1000 << endl;
     }

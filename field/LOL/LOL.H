@@ -61,6 +61,9 @@ class LOL
     public fieldExpression
 {
     // Private Data
+        IOdictionary sprayCloudProperties;
+        vector position;
+        vector direction;
         scalar OH_max;
         OFstream ResultOutPut;
 
