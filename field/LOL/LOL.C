@@ -99,23 +99,6 @@ bool Foam::functionObjects::LOL::execute()
     {
         const volScalarField& OH = lookupObject<volScalarField>(fieldName_);
 
-        /*IOdictionary sprayCloudProperties
-        (
-            IOobject
-            (
-                "sprayCloudProperties",
-                mesh_.time().constant(),
-                mesh_,
-                IOobject::MUST_READ,
-                IOobject::NO_WRITE
-            )
-        );*/
-        /*vector position = sprayCloudProperties.subDict("subModels")
-            .subDict("injectionModels").subDict("model1").lookup("position");
-        vector direction = sprayCloudProperties.subDict("subModels")
-            .subDict("injectionModels").subDict("model1").lookup("direction");
-            */
-
         scalar LOL = great;
         forAll (OH, cellI)
         {
