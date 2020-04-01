@@ -69,7 +69,7 @@ Foam::functionObjects::LOL::LOL
             mesh_,
             IOobject::READ_IF_PRESENT,
             IOobject::NO_WRITE
-        )    
+        )
     ),
     position(sprayCloudProperties.subDict("subModels").subDict("injectionModels").subDict("model1").lookup("position")),
     direction(sprayCloudProperties.subDict("subModels").subDict("injectionModels").subDict("model1").lookup("direction")),
