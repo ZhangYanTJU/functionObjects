@@ -60,9 +60,11 @@ Foam::functionObjects::LOL::LOL
 )
 :
     fieldExpression(name, runTime, dict, "OH"),
-    OH_max(readScalar(dict.lookup("OH_max")))
+    OH_max(readScalar(dict.lookup("OH_max"))),
+    ResultOutPut("LOL")
 {
     //setResultName(typeName, "OH");
+    ResultOutPut << "time," << "LOL (mm)" << endl;
 }
 
 
@@ -114,6 +116,7 @@ bool Foam::functionObjects::LOL::execute()
             }
         }
         Info << "LOL = " << LOL*1000 << " mm" << endl;
+        ResultOutPut << mesh_.time().value() << "," << LOL*1000 << endl;
     }
     else
     {

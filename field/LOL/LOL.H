@@ -43,6 +43,7 @@ SourceFiles
 #define functionObjects_LOL_H
 
 #include "fieldExpression.H"
+#include "fvCFD.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -61,7 +62,8 @@ class LOL
 {
     // Private Data
         scalar OH_max;
-    
+        OFstream ResultOutPut;
+
     // Private Member Functions
 
         //- Calculate the LOL field and return true if successful
