@@ -163,7 +163,7 @@ calculateSpeciesRR
         ),
         mesh_,
         dimensionedScalar("RR", dimMass/dimVolume/dimTime, Zero)
-    );    
+    );
 
     scalar dt = time_.deltaT().value();
 
@@ -341,7 +341,7 @@ bool Foam::functionObjects::reactionsSensitivityAnalysis<chemistryType>::read
 
     // Use user time, e.g. CA deg in preference to seconds
     useUserTime_ = dict.lookupOrDefault("useUserTime", true);
-    
+
     return true;
 }
 

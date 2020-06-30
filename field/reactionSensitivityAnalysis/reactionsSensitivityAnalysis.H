@@ -123,7 +123,7 @@ class reactionsSensitivityAnalysis
         //- Flag to use the specified user time, e.g. CA deg instead
         //- of seconds.  Default = true
         bool useUserTime_;
-        
+
         //- Return an autoPtr to a new file for a given time
         virtual autoPtr<OFstream> createFile
         (
@@ -136,7 +136,7 @@ class reactionsSensitivityAnalysis
         (
             const word& name
         ) const;
-//zhangyan---        
+//zhangyan---
 
         //- Create file names for forces and bins
         void createFileNames();
