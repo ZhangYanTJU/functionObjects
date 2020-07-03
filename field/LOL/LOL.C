@@ -74,10 +74,13 @@ Foam::functionObjects::LOL::LOL
     position(sprayCloudProperties.subDict("subModels").subDict("injectionModels").subDict("model1").lookup("position")),
     direction(sprayCloudProperties.subDict("subModels").subDict("injectionModels").subDict("model1").lookup("direction")),
     OH_max(readScalar(dict.lookup("OH_max"))),
+    criterion(dict.lookupOrDefault("criterion", 0.02)),
     ResultOutPut("LOL")
 {
     //setResultName(typeName, "OH");
     ResultOutPut << "time," << "LOL (mm)" << endl;
+    Info<<"OH_max = "<<OH_max<<endl;
+    Info<<"criterion = "<<criterion<<endl;
 }
 
 
@@ -102,7 +105,7 @@ bool Foam::functionObjects::LOL::execute()
         scalar LOL = great;
         forAll (OH, cellI)
         {
-            if (OH[cellI] >= 0.02*OH_max)
+            if (OH[cellI] >= criterion*OH_max)
             {
                 vector raw = position - mesh_.C()[cellI];
 

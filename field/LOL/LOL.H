@@ -65,6 +65,7 @@ class LOL
         vector position;
         vector direction;
         scalar OH_max;
+        scalar criterion;
         OFstream ResultOutPut;
 
     // Private Member Functions
