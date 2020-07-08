@@ -66,6 +66,7 @@ class LOL
         vector direction;
         //scalar OH_max;
         scalar criterion;
+        scalar threshold;
         OFstream ResultOutPut;
 
     // Private Member Functions

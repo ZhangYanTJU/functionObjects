@@ -75,6 +75,7 @@ Foam::functionObjects::LOL::LOL
     direction(sprayCloudProperties.subDict("subModels").subDict("injectionModels").subDict("model1").lookup("direction")),
     //OH_max(readScalar(dict.lookup("OH_max"))),
     criterion(dict.lookupOrDefault("criterion", 0.14)),
+    threshold(dict.lookupOrDefault("threshold", 1e-5)),
     ResultOutPut("LOL")
 {
     ResultOutPut << "time," << "LOL (mm)" << endl;
@@ -104,15 +105,22 @@ bool Foam::functionObjects::LOL::execute()
         Info << "OH_max = " << OH_max << endl;
 
         scalar LOL = great;
-        forAll (OH, cellI)
+        if (OH_max<threshold)
         {
-            if (OH[cellI] >= criterion*OH_max)
+            LOL = 0;
+        }
+        else
+        {
+            forAll (OH, cellI)
             {
-                vector raw = position - mesh_.C()[cellI];
-
-                if (mag(raw&direction) < LOL)
+                if (OH[cellI] >= criterion*OH_max)
                 {
-                    LOL = mag(raw&direction);
+                    vector raw = position - mesh_.C()[cellI];
+
+                    if (mag(raw&direction) < LOL)
+                    {
+                        LOL = mag(raw&direction);
+                    }
                 }
             }
         }
