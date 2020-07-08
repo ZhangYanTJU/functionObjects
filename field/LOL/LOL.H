@@ -64,7 +64,7 @@ class LOL
         IOdictionary sprayCloudProperties;
         vector position;
         vector direction;
-        scalar OH_max;
+        //scalar OH_max;
         scalar criterion;
         OFstream ResultOutPut;
 

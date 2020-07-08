@@ -73,13 +73,12 @@ Foam::functionObjects::LOL::LOL
     ),
     position(sprayCloudProperties.subDict("subModels").subDict("injectionModels").subDict("model1").lookup("position")),
     direction(sprayCloudProperties.subDict("subModels").subDict("injectionModels").subDict("model1").lookup("direction")),
-    OH_max(readScalar(dict.lookup("OH_max"))),
-    criterion(dict.lookupOrDefault("criterion", 0.02)),
+    //OH_max(readScalar(dict.lookup("OH_max"))),
+    criterion(dict.lookupOrDefault("criterion", 0.14)),
     ResultOutPut("LOL")
 {
-    //setResultName(typeName, "OH");
     ResultOutPut << "time," << "LOL (mm)" << endl;
-    Info<<"OH_max = "<<OH_max<<endl;
+    //Info<<"OH_max = "<<OH_max<<endl;
     Info<<"criterion = "<<criterion<<endl;
 }
 
@@ -101,6 +100,7 @@ bool Foam::functionObjects::LOL::execute()
     if (foundObject<volScalarField>(fieldName_))
     {
         const volScalarField& OH = lookupObject<volScalarField>(fieldName_);
+        const scalar OH_max = max(OH).value();
 
         scalar LOL = great;
         forAll (OH, cellI)
