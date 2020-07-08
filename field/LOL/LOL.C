@@ -101,6 +101,7 @@ bool Foam::functionObjects::LOL::execute()
     {
         const volScalarField& OH = lookupObject<volScalarField>(fieldName_);
         const scalar OH_max = max(OH).value();
+        Info << "OH_max = " << OH_max << endl;
 
         scalar LOL = great;
         forAll (OH, cellI)
