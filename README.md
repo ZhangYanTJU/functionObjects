@@ -2,8 +2,8 @@
 
 ## field/LOL
 
-运行后计算火焰浮起长度（Lift-off Length）
-controlDict 中添加：
+calulate Lift-off Length after the simulation
+controlDict:
 
 ```
 functions
@@ -18,20 +18,18 @@ functions
 ```
 
 ```
-postProcess -latestTime -field OH
+postProcess -field OH -func LOL
 ```
 
 ## utilities/engineTimeActivatedFileUpdate
 
-OpenFOAM 自带的 timeActivatedFileUpdate 不支持发动机算例。
-因为在算例里边，发动机里边的 Time 是按照曲轴转角来计算的。
-但是在代码中仍然是按照秒来计算的。
+The official timeActivatedFileUpdate doesn't support for the engine simulation, because the time in engine simulation is Crank Angle.
 
-经过我的修改后，在 controlDict 中加入：
+controlDict:
 ```
 functions
 {
-    fileUpdate1
+    fileUpdate
     {
         type              engineTimeActivatedFileUpdate;
         libs              ("libZYutilityFunctionObjects.so");
@@ -47,9 +45,31 @@ functions
 }
 ```
 
-然后复制几份 controlDict
 
 ```
 cp system/controlDict system/controlDict1
 cp system/controlDict system/controlDict2
+```
+
+
+## lagrangian/outputTheta
+
+```
+functions
+{
+    outputTheta
+    {
+        type outputTheta;
+        libs ("libZYlagrangianFunctionObjects.so");
+        clouds
+        (
+            sprayCloud
+        );
+    }
+}
+```
+
+
+```
+sprayFoam -postProcess -func outputTheta
 ```
