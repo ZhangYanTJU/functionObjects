@@ -54,6 +54,8 @@ cp system/controlDict system/controlDict2
 
 ## lagrangian/outputTheta
 
+Write the particle volume fraction field to time directory.
+
 ```
 functions
 {
