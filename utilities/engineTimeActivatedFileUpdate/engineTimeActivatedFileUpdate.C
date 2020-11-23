@@ -27,8 +27,6 @@ License
 #include "Time.H"
 #include "polyMesh.H"
 #include "addToRunTimeSelectionTable.H"
-#include "IFstream.H"
-
 
 // * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //
 
@@ -53,11 +51,10 @@ namespace functionObjects
 void Foam::functionObjects::engineTimeActivatedFileUpdate::updateFile()
 {
     label i = lastIndex_;
-
     while
     (
         i < timeVsFile_.size()-1
-     && timeVsFile_[i+1].first() < timeToDeg(time_.value())
+     && timeVsFile_[i+1].first() < time_.timeOutputValue()
     )
     {
         i++;
@@ -87,14 +84,11 @@ Foam::functionObjects::engineTimeActivatedFileUpdate::engineTimeActivatedFileUpd
 :
     functionObject(name),
     time_(runTime),
-    rpm_(dictionary(IFstream(runTime.constant()+"/engineGeometry")()).lookup("rpm")),
     fileToUpdate_(dict.lookup("fileToUpdate")),
     timeVsFile_(),
     lastIndex_(-1)
 {
     read(dict);
-
-    Info << "rpm in engineTimeActivatedFileUpdate ===" << rpm_.value() << endl;
 }
 
 
@@ -146,10 +140,6 @@ bool Foam::functionObjects::engineTimeActivatedFileUpdate::execute()
     return true;
 }
 
-Foam::scalar Foam::functionObjects::engineTimeActivatedFileUpdate::timeToDeg(const scalar t)
-{
-    return t*(6.0*rpm_.value());
-}
 
 bool Foam::functionObjects::engineTimeActivatedFileUpdate::write()
 {

@@ -58,7 +58,6 @@ SourceFiles
 
 #include "functionObject.H"
 #include "Tuple2.H"
-#include "dimensionedScalar.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -84,8 +83,6 @@ class engineTimeActivatedFileUpdate
         //- Reference to Time
         const Time& time_;
 
-        dimensionedScalar rpm_;
-
         //- Name of file to update
         fileName fileToUpdate_;
 
@@ -100,8 +97,6 @@ class engineTimeActivatedFileUpdate
 
         //- Update file
         void updateFile();
-
-        scalar timeToDeg(const scalar t);
 
         //- Disallow default bitwise copy construction
         engineTimeActivatedFileUpdate(const engineTimeActivatedFileUpdate&) = delete;
