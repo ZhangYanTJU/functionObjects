@@ -1,3 +1,4 @@
 engineTimeActivatedFileUpdate/engineTimeActivatedFileUpdate.C
+setWriteInterval/setWriteIntervalFunctionObject.C
 
 LIB = $(FOAM_USER_LIBBIN)/libZYutilityFunctionObjects
