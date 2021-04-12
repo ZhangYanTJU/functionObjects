@@ -59,7 +59,7 @@ Foam::functionObjects::LOL::LOL
     const dictionary& dict
 )
 :
-    fieldExpression(name, runTime, dict, "OH"),
+    fieldExpression(name, runTime, dict),
     sprayCloudProperties
     (
         IOobject
@@ -127,10 +127,6 @@ bool Foam::functionObjects::LOL::execute()
         reduce(LOL, minOp<scalar>());
         Info << "LOL = " << LOL*1000 << " mm" << endl;
         ResultOutPut << mesh_.time().value() << "," << LOL*1000 << endl;
-    }
-    else
-    {
-        Info << "Sorry! I cannot found OH!" << endl;
     }
 
     return true;

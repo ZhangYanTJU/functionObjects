@@ -6,22 +6,63 @@
 ## field/LOL
 
 calulate Lift-off Length after the simulation
-controlDict:
+system/LOL:
 
+```c++
+FoamFile
+{
+    version         2.0;
+    format          ascii;
+    class           dictionary;
+    location        system;
+    object          LOL;
+}
+
+enabled         true;
+type            LOL;
+libs            ("libZYfieldFunctionObjects.so");
+
+field OH;
+//field OHMean; // for LES
+```
+
+### for RANS
+```
+foamDictionary -entry field -set OH system/LOL
+postProcess -field OH -func LOL
+```
+### for LES
+add OH average during CFD online:
 ```
 functions
 {
-    LOL
+	fieldAverage
     {
-        type LOL;
-        libs ("libZYfieldFunctionObjects.so");
-        OH_max 0.0001;
-    }
+        type            fieldAverage;
+        functionObjectLibs ("libfieldFunctionObjects.so");
+        enabled         true;
+
+        // Time at which averaging should start
+		timeStart	0.0012;
+
+        writeControl   outputTime;
+
+        fields
+        (
+            OH 
+            {
+                mean        on;
+                prime2Mean  off;
+                base        time;
+            }
+        );
+    }	
 }
 ```
-
+after finish CFD:
 ```
-postProcess -field OH -func LOL
+foamDictionary -entry field -set OHMean system/LOL
+postProcess -field OHMean -func LOL
 ```
 
 ## utilities/engineTimeActivatedFileUpdate
