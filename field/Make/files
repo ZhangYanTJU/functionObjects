@@ -1,4 +1,4 @@
 LOL/LOL.C
-/*reactionSensitivityAnalysis/reactionsSensitivityAnalysisObjects.C*/
+reactionSensitivityAnalysis/reactionsSensitivityAnalysisObjects.C
 
 LIB = $(FOAM_USER_LIBBIN)/libZYfieldFunctionObjects
