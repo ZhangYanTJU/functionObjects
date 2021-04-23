@@ -49,14 +49,14 @@ functions
 
         fields
         (
-            OH 
+            OH
             {
                 mean        on;
                 prime2Mean  off;
                 base        time;
             }
         );
-    }	
+    }
 }
 ```
 after finish CFD:
@@ -242,4 +242,42 @@ functions
 
 ```
 sprayFoam -postProcess -func outputTheta
+```
+
+
+## randomProcesses/energySpectrum
+
+energySpectrum code from OpenFOAM-ESI
+
+In order to use this tool, you must have a structured IJK mesh.
+Or you can use a new structured IJK mesh, and then map the old result to this new mesh.
+
+
+In my experience, you must offer a totally uniform structured mesh, with the same grid number in each direction.
+And the number of cells in each direction should be a power of 2.
+
+system/energySpectrum
+```
+/*--------------------------------*- C++ -*----------------------------------*\
+  =========                 |
+  \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox
+   \\    /   O peration     | Version:  v2012
+    \\  /    A nd           | Website:  www.openfoam.com
+     \\/     M anipulation  |
+-------------------------------------------------------------------------------
+Description
+    Calculates the energy spectrum for a box of turbulence
+\*---------------------------------------------------------------------------*/
+
+type            energySpectrum;
+libs            ("librandomProcessesFunctionObjects.so");
+
+executeControl  writeTime;
+writeControl    writeTime;
+
+// ************************************************************************* //
+```
+
+```shell
+postProcess -func energySpectrum -fields "(U)"
 ```
