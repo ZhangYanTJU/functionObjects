@@ -253,7 +253,7 @@ In order to use this tool, you must have a structured IJK mesh.
 Or you can use a new structured IJK mesh, and then map the old result to this new mesh.
 
 
-In my experience, you must offer a totally uniform structured mesh, with the same grid number in each direction.
+In my experience, you must offer a totally structured mesh, with the same grid number in each direction.
 And the number of cells in each direction should be a power of 2.
 
 system/energySpectrum
