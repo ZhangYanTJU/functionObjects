@@ -51,10 +51,12 @@ namespace functionObjects
 void Foam::functionObjects::energySpectrum::writeFileHeader(const label i)
 {
     OFstream& file = this->file();
-    writeHeader(file, "Turbulence energy spectra");
+	writeHeader(file, "Turbulence energy spectra");
 
-    writeCommented(file, "kappa E(kappa)");
+	writeCommented(file(), "Time");
+	file  << endl;
 
+	writeCommented(file, "kappa E(kappa)");
     file  << endl;
 }
 
@@ -106,19 +108,11 @@ void Foam::functionObjects::energySpectrum::calcAndWriteSpectrum
     E /= kappaNorm;
 
     Log << "Writing spectrum" << endl;
-    /*autoPtr<OFstream> osPtr = createFile(name(), time_.value());
-    OFstream& os = osPtr.ref();
-    writeFileHeader(os);
-
-    forAll(kappa, kappai)
-    {
-        os  << kappa[kappai] << tab << E[kappai] << nl;
-    }*/
 
     OFstream& file = this->file();
     file.print(Info);
-    //writeHeader(file, "nothing");
-    writeFileHeader(0);
+
+
     forAll(kappa, kappai)
     {
         file  << kappa[kappai] << tab << E[kappai] << nl;
@@ -235,7 +229,11 @@ bool Foam::functionObjects::energySpectrum::execute()
 bool Foam::functionObjects::energySpectrum::write()
 {
     logFiles::write();
-    if (Pstream::master()) writeTime(file());
+    if (Pstream::master())
+	{
+		writeTime(file());
+		file() << endl;
+	}
 
     const auto& U = mesh_.lookupObject<volVectorField>(UName_);
     const vectorField& Uc = U.primitiveField();
